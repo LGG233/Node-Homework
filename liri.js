@@ -38,6 +38,21 @@ function concertThis(thingToDo) {
             console.log("Venue: " + venue);
             console.log("Location: " + city);
             console.log("Date: " + newDate);
+            fs.open('log.txt')
+            fs.appendFile('log.txt', "\r\n" + artists, function (err) {
+                if (err) throw err;
+            });
+            fs.appendFile('log.txt', "\r\n" + venue, function (err) {
+                if (err) throw err;
+            });
+            fs.appendFile('log.txt', "\r\n" + city, function (err) {
+                if (err) throw err;
+            });
+            fs.appendFile('log.txt', "\r\n" + newDate, function (err) {
+                if (err) throw err;
+            });
+
+            console.log('Saved!');
             if (i === response.data.length) {
                 return
             }
@@ -114,5 +129,3 @@ function doIt() {
         }
     });
 }
-
-
