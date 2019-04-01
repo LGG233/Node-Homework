@@ -8,25 +8,37 @@ var fs = require('fs');
 
 var whatToDo = process.argv[2];
 var thingToDo = process.argv[3];
+switchIt(whatToDo, thingToDo);
 
-switch (whatToDo) {
-    case "concert-this":
-        concertThis(thingToDo);
-        return;
-    case "spotify-this-song":
-        spotifyThis(thingToDo);
-        return;
-    case "movie-this":
-        movieThis(thingToDo);
-        return;
-    case "do-what-it-says":
-        doIt();
-        return;
+function switchIt(whatToDo, thingToDo) {
+    switch (whatToDo) {
+        case "concert-this":
+            concertThis(thingToDo);
+            return;
+        case "spotify-this-song":
+            spotifyThis(thingToDo);
+            return;
+        case "movie-this":
+            movieThis(thingToDo);
+            return;
+        case "do-what-it-says":
+            doIt();
+            return;
+        default:
+            console.log("Please enter a valid command.");
+    }
 }
 
 function concertThis(thingToDo) {
     axios.get("https://rest.bandsintown.com/artists/" + thingToDo + "/events?app_id=codingbootcamp").then(function (response) {
-        for (i = 0; i < 7; i++) {
+        if (response.data.length === 0) {
+            console.log("Sorry, " + thingToDo + " isn't on tour right now.")
+            return;
+        }
+        for (var i = 0; i < 7; i++) {
+            if (i === response.data.length) {
+                return;
+            }
             var object = response.data[i];
             var artists = thingToDo;
             var venue = object.venue.name;
@@ -38,70 +50,52 @@ function concertThis(thingToDo) {
             console.log("Venue: " + venue);
             console.log("Location: " + city);
             console.log("Date: " + newDate);
-            fs.open('log.txt')
-            fs.appendFile('log.txt', "\r\n" + artists, function (err) {
-                if (err) throw err;
-            });
-            fs.appendFile('log.txt', "\r\n" + venue, function (err) {
-                if (err) throw err;
-            });
-            fs.appendFile('log.txt', "\r\n" + city, function (err) {
-                if (err) throw err;
-            });
-            fs.appendFile('log.txt', "\r\n" + newDate, function (err) {
-                if (err) throw err;
-            });
-
+            fs.appendFileSync('log.txt', "\r\n" + artists);
+            fs.appendFileSync('log.txt', "\r\n" + venue);
+            fs.appendFileSync('log.txt', "\r\n" + city);
+            fs.appendFileSync('log.txt', "\r\n" + newDate);
             console.log('Saved!');
-            if (i === response.data.length) {
-                return
-            }
         }
     })
 }
 
 function spotifyThis(thingToDo) {
     if (thingToDo === undefined) {
-        var queryTerm = "The Sign Ace of Base";
-    } else {
-        var queryTerm = thingToDo;
+        thingToDo = "The Sign Ace of Base";
     }
-    console.log(queryTerm);
+    console.log(thingToDo);
     spotify.search({
         type: 'track',
-        query: queryTerm
+        query: thingToDo,
+        limit: 7
     }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        for (i = 0; i < 7; i++) {
-            // var object = data.tracks.items[i];
+        for (var i = 0; i < data.tracks.items.length; i++) {
+            var song = data.tracks.items[i];
             console.log("\r\n\---------------")
-            console.log("\r\n\Artist: " + data.tracks.items[i].album.artists[0].name);
-            console.log("Album: " + data.tracks.items[i].album.name);
-            console.log("Song: " + data.tracks.items[i].name);
-            console.log("Preview URL: " + data.tracks.items[i].preview_url);
-            if (i === data.tracks.items.length) {
-                return
-            }
+            console.log("\r\n\Artist: " + song.album.artists[0].name);
+            console.log("Album: " + song.album.name);
+            console.log("Song: " + song.name);
+            console.log("Preview URL: " + song.preview_url);
         }
     })
 }
 function movieThis(thingToDo) {
     if (thingToDo === undefined) {
-        var queryTerm = "Mr Nobody";
-    } else {
-        var queryTerm = thingToDo;
+        thingToDo = "Mr Nobody";
     }
-    axios.get("http://www.omdbapi.com/?t=" + queryTerm + "&apikey=c6e3e281").then(function (response) {
-        console.log("Title: " + response.data.Title);
-        console.log("Year: " + response.data.Year);
-        console.log("IMDB Rating: " + response.data.Ratings[0].Value);
-        console.log("Rotten Tomatoes Score: " + response.data.Ratings[1].Value);
-        console.log("Country: " + response.data.Country);
-        console.log("Language: " + response.data.Language);
-        console.log("Plot Summary: " + response.data.Plot);
-        console.log("Lead Actors: " + response.data.Actors);
+    axios.get("http://www.omdbapi.com/?t=" + thingToDo + "&apikey=c6e3e281").then(function (response) {
+        var movie = response.data;
+        console.log("Title: " + movie.Title);
+        console.log("Year: " + movie.Year);
+        console.log("IMDB Rating: " + movie.Ratings[0].Value);
+        console.log("Rotten Tomatoes Score: " + movie.Ratings[1].Value);
+        console.log("Country: " + movie.Country);
+        console.log("Language: " + movie.Language);
+        console.log("Plot Summary: " + movie.Plot);
+        console.log("Lead Actors: " + movie.Actors);
     })
 };
 
@@ -113,19 +107,6 @@ function doIt() {
         var content = data.split(",");
         whatToDo = content[0];
         thingToDo = content[1];
-        switch (whatToDo) {
-            case "concert-this":
-                concertThis(thingToDo);
-                return;
-            case "spotify-this-song":
-                spotifyThis(thingToDo);
-                return;
-            case "movie-this":
-                movieThis(thingToDo);
-                return;
-            case "do-what-it-says":
-                doIt();
-                return;
-        }
+        switchIt(whatToDo, thingToDo);
     });
 }
