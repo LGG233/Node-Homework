@@ -55,7 +55,6 @@ function concertThis(thingToDo) {
             fs.appendFileSync('log.txt', "\r\n" + venue);
             fs.appendFileSync('log.txt', "\r\n" + city);
             fs.appendFileSync('log.txt', "\r\n" + newDate);
-            console.log('Saved!');
         }
     })
 }
