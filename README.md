@@ -9,3 +9,4 @@ Liri is a node-based app that looks up concert, song, and movie information and 
 To get the latest tour schedule of your favorite group, simply type in "node liri concert-this" followed by the name of the group, like The Black Keys or Mountain Goats or Parkay Courts. You'll see upcoming shows of your band - city, venue, and date - so you can jump over to Ticketmaster or SeatGeek and get your spot. Here's what it looks like: ![Liri Concert Search](/images/concert-the-black-keys.jpg). 
 
 Liri tells you when the group you want to see isn't touring, too. [Liri Band not on Tour](/images/concert-chuck-berry.jpg). 
+
