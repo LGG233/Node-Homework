@@ -9,7 +9,6 @@ var fs = require('fs');
 var whatToDo = process.argv[2];
 var thingToDo = process.argv.slice(3);
 thingToDo = thingToDo.join(" ");
-// console.log(thingToDo);
 switchIt(whatToDo, thingToDo);
 
 function switchIt(whatToDo, thingToDo) {
@@ -65,7 +64,6 @@ function spotifyThis(thingToDo) {
     if (thingToDo === "") {
         thingToDo = "The Sign Ace of Base";
     }
-    console.log(thingToDo);
     spotify.search({
         type: 'track',
         query: thingToDo,
@@ -74,7 +72,7 @@ function spotifyThis(thingToDo) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        if (data.tracks.length === 0) {
+        if (data.tracks.total === 0) {
             console.log("Sorry, " + thingToDo + " doesn't appear to be in the Spotify library.")
             return;
         }
@@ -92,7 +90,11 @@ function movieThis(thingToDo) {
     if (thingToDo === "") {
         thingToDo = "Mr Nobody";
     }
-    axios.get("http://www.omdbapi.com/?t=" + thingToDo + "&apikey=c6e3e281").then(function (response) {
+    axios.get("http://www.omdbapi.com/?t=" + thingToDo + "&apikey=c6e3e281").then(function (error, response) {
+        if (error){
+            console.log("Sorry. " + thingToDo + "was not found. Please try again.");
+            return;
+        }
         var movie = response.data;
         console.log("Title: " + movie.Title);
         console.log("Year: " + movie.Year);
