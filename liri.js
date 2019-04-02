@@ -7,7 +7,9 @@ var moment = require('moment');
 var fs = require('fs');
 
 var whatToDo = process.argv[2];
-var thingToDo = process.argv[3];
+var thingToDo = process.argv.slice(3);
+thingToDo = thingToDo.join(" ");
+// console.log(thingToDo);
 switchIt(whatToDo, thingToDo);
 
 function switchIt(whatToDo, thingToDo) {
@@ -60,7 +62,7 @@ function concertThis(thingToDo) {
 }
 
 function spotifyThis(thingToDo) {
-    if (thingToDo === undefined) {
+    if (thingToDo === "") {
         thingToDo = "The Sign Ace of Base";
     }
     console.log(thingToDo);
@@ -71,6 +73,10 @@ function spotifyThis(thingToDo) {
     }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
+        }
+        if (data.tracks.length === 0) {
+            console.log("Sorry, " + thingToDo + " doesn't appear to be in the Spotify library.")
+            return;
         }
         for (var i = 0; i < data.tracks.items.length; i++) {
             var song = data.tracks.items[i];
@@ -83,7 +89,7 @@ function spotifyThis(thingToDo) {
     })
 }
 function movieThis(thingToDo) {
-    if (thingToDo === undefined) {
+    if (thingToDo === "") {
         thingToDo = "Mr Nobody";
     }
     axios.get("http://www.omdbapi.com/?t=" + thingToDo + "&apikey=c6e3e281").then(function (response) {
