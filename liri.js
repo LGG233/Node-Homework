@@ -43,9 +43,7 @@ function concertThis(thingToDo) {
                 return;
             }
             var object = response.data[i];
-            var date = object.datetime;
-            newDate = moment(date).format("MM/DD/YYYY")
-            console.log("---------------\r\nVenue: " + object.venue.name + "\r\nLocation: " + object.venue.city + ", " + object.venue.region + "\r\nDate: " + newDate);
+            console.log("---------------\r\nVenue: " + object.venue.name + "\r\nLocation: " + object.venue.city + ", " + object.venue.region + "\r\nDate: " + moment(object.datetime).format("MM/DD/YYYY"));
         }
     })
 }
