@@ -31,42 +31,35 @@ function switchIt(whatToDo, thingToDo) {
 }
 
 function concertThis(thingToDo) {
+    console.clear();
+    console.log("You can see " + thingToDo + " at the following shows:");
     axios.get("https://rest.bandsintown.com/artists/" + thingToDo + "/events?app_id=codingbootcamp").then(function (response) {
         if (response.data.length === 0) {
             console.log("Sorry, " + thingToDo + " isn't on tour right now.")
             return;
         }
-        for (var i = 0; i < 7; i++) {
+        for (var i = 0; i < 10; i++) {
             if (i === response.data.length) {
                 return;
             }
             var object = response.data[i];
-            var artists = thingToDo;
-            var venue = object.venue.name;
-            var city = object.venue.city + ", " + object.venue.region;
             var date = object.datetime;
             newDate = moment(date).format("MM/DD/YYYY")
-            console.log("\r\n\---------------")
-            console.log("Artist: " + artists);
-            console.log("Venue: " + venue);
-            console.log("Location: " + city);
-            console.log("Date: " + newDate);
-            fs.appendFileSync('log.txt', "\r\n" + artists);
-            fs.appendFileSync('log.txt', "\r\n" + venue);
-            fs.appendFileSync('log.txt', "\r\n" + city);
-            fs.appendFileSync('log.txt', "\r\n" + newDate);
+            console.log("---------------\r\nVenue: " + object.venue.name + "\r\nLocation: " + object.venue.city + ", " + object.venue.region + "\r\nDate: " + newDate);
         }
     })
 }
 
 function spotifyThis(thingToDo) {
+    console.clear();
+    console.log("Here's what we found for " + thingToDo);
     if (thingToDo === "") {
         thingToDo = "The Sign Ace of Base";
     }
     spotify.search({
         type: 'track',
         query: thingToDo,
-        limit: 7
+        limit: 9
     }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
@@ -77,32 +70,28 @@ function spotifyThis(thingToDo) {
         }
         for (var i = 0; i < data.tracks.items.length; i++) {
             var song = data.tracks.items[i];
-            console.log("\r\n\---------------")
-            console.log("\r\n\Artist: " + song.album.artists[0].name);
-            console.log("Album: " + song.album.name);
-            console.log("Song: " + song.name);
-            console.log("Preview URL: " + song.preview_url);
+            if (song.preview_url === null) {
+                song.preview_url = "Not available";
+            }
+            console.log("---------------\r\n\Artist: " + song.album.artists[0].name + "\r\nAlbum: " + song.album.name + "\r\nSong: " + song.name + "\r\nPreview URL: " + song.preview_url);
         }
     })
 }
 function movieThis(thingToDo) {
+    console.clear();
     if (thingToDo === "") {
         thingToDo = "Mr Nobody";
     }
-    axios.get("http://www.omdbapi.com/?t=" + thingToDo + "&apikey=c6e3e281").then(function (error, response) {
-        if (error){
-            console.log("Sorry. " + thingToDo + "was not found. Please try again.");
-            return;
+    axios.get("http://www.omdbapi.com/?t=" + thingToDo + "&apikey=c6e3e281").then(function (response) {
+        if (response.data.Title === undefined) {
+            console.log("Sorry. " + thingToDo + " was not found. Please try again.");
+            return
+        } else {
+            console.log("Here's what we found for " + thingToDo);
         }
         var movie = response.data;
-        console.log("Title: " + movie.Title);
-        console.log("Year: " + movie.Year);
-        console.log("IMDB Rating: " + movie.Ratings[0].Value);
-        console.log("Rotten Tomatoes Score: " + movie.Ratings[1].Value);
-        console.log("Country: " + movie.Country);
-        console.log("Language: " + movie.Language);
-        console.log("Plot Summary: " + movie.Plot);
-        console.log("Lead Actors: " + movie.Actors);
+        console.log("\r\nTitle: " + movie.Title + "\r\nYear: " + movie.Year + "\r\nIMDB Rating: " + movie.Ratings[0].Value + "\r\nRotten Tomatoes Score: " + movie.Ratings[1].Value + 
+        "\r\nCountry: " + movie.Country + "\r\nLanguage: " + movie.Language + "\r\nPlot Summary: " + movie.Plot + "\r\nLead Actors: " + movie.Actors);
     })
 };
 
