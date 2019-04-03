@@ -8,17 +8,19 @@ Liri is a node-based app that looks up concert, song, and movie information and 
 
 To get the latest tour schedule of your favorite group, type "node liri concert-this" followed by the name of the group, like The Black Keys or Mountain Goats or Parkay Courts. You'll see upcoming shows of your band - city, venue, and date - so you can jump over to Ticketmaster or SeatGeek and buy tickets. Here's what it looks like: ![Concert Search](/images/concert-the-black-keys.jpg). 
 
-Liri tells you when the group you want to see isn't touring, too. [Not On Tour](/images/concert-chuck-berry.jpg) 
+Liri tells you when the group you want to see isn't touring, too. ![Not On Tour](/images/concert-chuck-berry.jpg) 
 
 # Spotify Song List
 
-Liri digs deep into Spotify to give you up-to-date info on any song in the Spotify library. Simply type "node liri spotify-this-song" followed by the name of the song you're seeking, and Liri generates a list of songs and artists that match your search: [Spotify Search Results](/images/spotify-results.jpg) If available, Liri will even give you a Preview URL for that song. 
+Liri digs deep into Spotify to give you up-to-date info on any song in the Spotify library. Simply type "node liri spotify-this-song" followed by the name of the song you're seeking, and Liri generates a list of songs and artists that match your search: ![Spotify Search Results](/images/spotify-results.jpg) If available, Liri will even give you a Preview URL for that song. 
 
-Of course, Liri tells you if your search produces no hits so you can look for another tune. [Spotify No Results](/images/spotify-not-found.jpg). 
+Of course, Liri tells you if your search produces no hits so you can look for another tune. ![Spotify No Results](/images/spotify-not-found.jpg). 
 
 # Movie Details
 
-Liri can help you decide what to watch tonight (or any night!) through its movie search which pulls details on any film in the Online Movie Database library. Type "movie-this" and the name of the film you're considering, and Liri returns information on that film that helps you make a decision: IMDB rating, Rotten Tomatoes score, principal cast, a brief plot summary, and more. [Movie results](/images/movie-search.jpg)
+Liri can help you decide what to watch tonight (or any night!) through its movie search which pulls details on any film in the Online Movie Database library. Type "movie-this" and the name of the film you're considering, and Liri returns information on that film that helps you make a decision: IMDB rating, Rotten Tomatoes score, principal cast, a brief plot summary, and more. ![Movie results](/images/movie-search.jpg)
+
+# Let Liri Decide
 
 Can't decide what to do? Just ask Liri. Type "do-what-it-says," and Liri will recommend a movie, song, or concert.
 
