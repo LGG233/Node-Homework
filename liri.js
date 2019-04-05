@@ -7,8 +7,7 @@ var moment = require('moment');
 var fs = require('fs');
 
 var whatToDo = process.argv[2];
-var thingToDo = process.argv.slice(3);
-thingToDo = thingToDo.join(" ");
+var thingToDo = process.argv.slice(3).join(" ");
 switchIt(whatToDo, thingToDo);
 
 function switchIt(whatToDo, thingToDo) {
